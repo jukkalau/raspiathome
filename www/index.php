@@ -1,20 +1,10 @@
 <!DOCTYPE html>                 <!-- This is an HTML5 file -->
 <html>                          <!-- The root element -->
 <head>                          <!-- Title, scripts & styles go here -->
-<title>Digital Clock</title>
+<title>Raspi@home</title>
 <meta http-equiv="refresh" content="60" > 
 <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
 <meta name="Language" content="fi">
-<script>                        // A script of js code
-// Define a function to display the current time
-function displayTime() {
-    var elt = document.getElementById("clock");  // Find element with id="clock"
-    var now = new Date();                        // Get current time
-    elt.innerHTML = now.toLocaleTimeString();    // Make elt display it
-    setTimeout(displayTime, 1000);               // Run again in 1 second
-}
-window.onload = displayTime;  // Start displaying the time when document loads.
-</script>
 <style>                         /* A CSS stylesheet for the clock */
 #clock {                        /* Style apply to element with id="clock" */
   font: bold 90pt sans;         /* Use a big bold font */
@@ -34,10 +24,6 @@ window.onload = displayTime;  // Start displaying the time when document loads.
 </style>
 </head>
 <body>                    <!-- The body is the displayed parts of the doc. -->
-<!--
-<br>
-<span id="clock"></span>  <!-- The time gets inserted here -->
-<br>
 
 <br>
 <span id="temp">
@@ -93,7 +79,5 @@ echo $theData;
 <h2>Edellinen viikko</h2>
 <br>
 <img src="temp/7_days.png">
-<br>
-<img src="monitor/ping-stats.jpg">
 </body>
 </html>
