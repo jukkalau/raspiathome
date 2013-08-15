@@ -65,7 +65,7 @@ echo $theData;
 <br>
 <h2>Edellinen vuorokausi ulkona</h2>
 <br>
-<img src="temp/m.png">
+<img src="temp/m_BB.png">
 
 <h2>Edellinen vuorokausi LTO</h2>
 <br>
@@ -78,6 +78,10 @@ echo $theData;
 
 <h2>Edellinen viikko</h2>
 <br>
-<img src="temp/7_days.png">
+<img src="temp/BB_7_days.png">
+
+<h2>Edellinen kuukausi</h2>
+<br>
+<img src="temp/BB_30_days.png">
 </body>
 </html>
