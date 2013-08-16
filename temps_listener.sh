@@ -7,5 +7,5 @@ then
 python ~/raspiathome/temps.py &
 #ugly hardcoded path to repo home
 else
-echo "eq 0 - temps.py found - all ok"
+#echo "eq 0 - temps.py found - all ok"
 fi

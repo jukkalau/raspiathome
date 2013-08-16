@@ -57,4 +57,5 @@ while True:
             fh.write("Patteri: " + value + "V")
             fh.close()
         else:
+            my_logger.debug("reg-exp did not catch message, trying empty serial buffer")
             null = ser.read(24)

@@ -38,7 +38,7 @@ def gen_graph(args):
     x2_series = []
     y_series = []
     y2_series = []
-    con = sqlite3.connect('temperature.db')
+    con = sqlite3.connect('/home/naxu/raspiathome/temperature.db')
     with con:
         cur = con.cursor()
         cur.execute("select * from temps where timestam > (datetime('now','-" + period + "'))")
