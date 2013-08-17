@@ -17,11 +17,16 @@ import re
 import sqlite3
 import logging
 import logging.handlers
+import ConfigParser
 
 my_logger = logging.getLogger('MyLogger')
 my_logger.setLevel(logging.DEBUG)
 handler = logging.handlers.SysLogHandler(address = '/dev/log')
 my_logger.addHandler(handler)
+
+parser = ConfigParser.SafeConfigParser()
+parser.read('config.ini')
+
 
 baud = 9600
 port = '/dev/ttyAMA0'
@@ -38,24 +43,25 @@ while True:
         validator = re.compile("a([A-Z][A-Z])TMPA{1,2}(\d.\.{1,2}\d{1,2}\d)")
         m = validator.match(llapMsg)
         if m:
-            sqlstring = "insert into temps(sensor,value) values('" + m.group(1) + "','" + m.group(2) + "')"
+            sqlstring = "insert into temps(sensor,value) values('" + m.group(1)\
+                + "','" + m.group(2) + "')"
             my_logger.debug(sqlstring)
             cur.execute(sqlstring)
             fh = open("www/temp/last_temp" + m.group(1) + ".txt", "w+")
-            if m.group(1) == 'BB':
-                sname = 'Ulkona'
-            elif m.group(1) == 'CC':
-                sname = 'Tuloilma'
-            else:
-                sname = 'Alakerrassa'
-            fh.write(sname + ":" + m.group(2))
+            sname = parser.get(m.group(1),"displayName") 
+            # fetch calibration multiplier from ini file and use that to 
+            # store fixed temp reading to db
+            fixedValue = float(parser.get(m.group(1),"calibrationValue")) \
+                * float(m.group(2))
+            fh.write(sname + ":" + str(round(fixedValue, 2)))
             fh.close()
-                # todo: fix voltage reporting to be done in correct sensor file
+        # todo: fix voltage reporting to be done in correct sensor file
         elif re.search("BATT", llapMsg):
             value = llapMsg[7:12]
             fh = open("www/temp/last_temp.txt", "w+")
             fh.write("Patteri: " + value + "V")
             fh.close()
         else:
-            my_logger.debug("reg-exp did not catch message, trying empty serial buffer")
+            my_logger.debug(
+                "reg-exp did not catch message, emptying serial buffer")
             null = ser.read(24)
