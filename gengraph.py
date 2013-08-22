@@ -41,7 +41,8 @@ def gen_graph(args):
     con = sqlite3.connect('/home/naxu/raspiathome/temperature.db')
     with con:
         cur = con.cursor()
-        cur.execute("select * from temps where timestam > (datetime('now','-" + period + "'))")
+	sql = "select * from temps where sensor = '" + sensor  + "' AND timestam > (datetime('now','-" + period + "'))"
+        cur.execute(sql)
         rows = cur.fetchall()
         for row in rows:
             try:
@@ -53,6 +54,10 @@ def gen_graph(args):
                         datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S")))
 
                 y2_series.append(round(value,1))
+        cur.execute("select MIN(value), MAX(value) from temps where sensor = '" + sensor + "' and timestam  > (datetime('now','-" \
+                        + period + "'))")
+        maxmin = cur.fetchall()
+        fig.suptitle("min / max \n" + str(round(maxmin[0][0],1)) + "$^\circ$C / " + str(round(maxmin[0][1],1)) + "$^\circ$C", fontsize=24)
         ax.plot(x2_series, y2_series, label = "Temp " + sensor )
         plt.gcf().autofmt_xdate()
         plt.ylabel("Celsius")
