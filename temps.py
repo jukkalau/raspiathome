@@ -40,7 +40,8 @@ while True:
         llapMsg = str(ser.read(12))
         my_logger.debug(llapMsg)
         #match voltage message
-        validator = re.compile("a([A-Z][A-Z])TMPA{1,2}(\d.\.{1,2}\d{1,2}\d)")
+	#matches also negative value aBBTMPA-9.99
+        validator = re.compile("a([A-Z][A-Z])TMPA(( |-)?\d.{1,3}\d)")
         m = validator.match(llapMsg)
         if m:
             sqlstring = "insert into temps(sensor,value) values('" + m.group(1)\
