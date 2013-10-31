@@ -61,7 +61,7 @@ def main():
             elif re.search("BATT", llapMsg):
                 value = llapMsg[7:12]
                 fh = open("www/temp/last_temp" + llapMsg[1:3] +".txt" , "w+")
-                fh.write("Patteri " , llapMsg[1:3] + ": " + value + "V")
+                fh.write("Patteri " + llapMsg[1:3] + ": " + value + "V")
                 fh.close()
                 err = 0
             elif re.search("AWAKE", llapMsg):
