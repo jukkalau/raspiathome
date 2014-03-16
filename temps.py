@@ -29,7 +29,7 @@ parser.read('config.ini')
 
 baud = 9600
 port = '/dev/ttyAMA0'
-ser = serial.Serial(port, baud)
+ser = serial.Serial(port, baud, timeout=10)
 con = sqlite3.connect('temperature.db')
 
 def main():
@@ -97,8 +97,8 @@ def main():
                     my_logger.debug("Error count hit, bailing out")
                     return 1
                 my_logger.debug(
-                    "reg-exp did not catch message, reading extra char from serial buffer")
-                crap = ser.read(1)
+                    "reg-exp did not catch message, emptying serial buffer")
+                crap = ser.read(ser.inWaiting())
                 my_logger.debug(crap)
                 err = err + 1
 
